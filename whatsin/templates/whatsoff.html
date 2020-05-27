@@ -5,6 +5,51 @@
     <title>title</title>
   </head>
   <body>
-    
+    <h1> The Fridge </h1>
+      <table class="table" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Image</th>
+            <th>Item name</th>
+            <th>Owner</th>
+            <th>Quantity</th>
+            <th>Use by</th>
+            {% if current_user.is_authenticated %}
+            <th>
+                <a href="{{ url_for('add_to_fridge') }}">
+                          +</a>
+            </th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          </tr>
+            {% for item in fridge %}
+            <tr>
+              <td> {{ item.id }}          </td>
+              <td><img src="{{ url_for('static', filename=item.image_file )}}"> </img></td>
+              <td> {{ item.item_name }}        </td>
+              <td> {{ item.fridge_item_owner.username }} </td>
+              <td> {{ item.quantity}}        </td>
+              <td> {{ item.use_by.strftime('%d-%m-%Y') }}         </td>
+              {% if current_user.is_authenticated %}
+              <td>
+                <button type="button" class="btn btn-info" >
+                  <a href="{{ url_for('update_fridge_item', fridge_item_id=item.id)}}">
+                    ✏️
+                  </a>
+                </button>
+                <a href="{{ url_for('delete_fridge_item', fridge_item_id=item.id)}}">
+                <button type="button" class="btn btn-warning">
+                  🗑️
+                </button>
+	        </a>
+              </td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+      </table>
+
   </body>
 </html>

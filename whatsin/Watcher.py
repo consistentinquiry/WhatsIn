@@ -13,7 +13,7 @@ class Watcher:
     
     def checkSellby(self, payload):
         print( "Checking sell-bys...")
-        offItems = None
+        offItems = []
         todaysDate = datetime.datetime.now()
         for Fridge_item in payload:
             formatted_item_date = Fridge_item.use_by.strftime("%d-%m-%Y")
@@ -21,8 +21,10 @@ class Watcher:
 
             if formatted_item_date < formatted_today_date:
                 print(Fridge_item.item_name + " is off, it went off on " + str(Fridge_item.use_by))
+                offItems.append(Fridge_item)
             elif formatted_item_date == formatted_today_date:
                 print(Fridge_item.item_name + " is going off today...")
+        return offItems
 
 
     def every(self):

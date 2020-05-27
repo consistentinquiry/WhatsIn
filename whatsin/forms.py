@@ -41,7 +41,7 @@ class AddToFridgeForm(FlaskForm):
     item_name = StringField('Item name', validators=[DataRequired()])
     quantity = IntegerField('Quantity', validators=[DataRequired()])
     use_by = DateField('Use by', default=date.today )
-    image_file = StringField('Image file', default="default.jpg")
+    image_file = StringField('Image file', default="default.png")
     
     submit = SubmitField('Sign up')
 
@@ -49,7 +49,7 @@ class AddToFridgeForm(FlaskForm):
 class AddToCupboardForm(FlaskForm):
     item_name = StringField('Item name', validators=[DataRequired()])
     quantity = IntegerField('Quantity', validators=[DataRequired()])
-    image_file = StringField('Image file', default="default.jpg")
+    image_file = StringField('Image file', default="cupboard_default.png")
 
     submit = SubmitField('Sign up')
 

@@ -2,7 +2,7 @@ from whatsin.models import User, Fridge_item, Cupboard_item
 from flask import render_template, flash, redirect, url_for, request, abort
 #from flask.ext.login import login_required, login_user
 from whatsin.forms import RegistrationForm, LoginForm, AddToFridgeForm, AddToCupboardForm, FridgeItemForm, CupboardItemForm
-from whatsin import app, db, bcrypt #imports from run.py
+from whatsin import app, db, bcrypt, watcher00 #imports from run.py
 import os
 import datetime
 from flask_login import login_user, current_user, logout_user, login_required
@@ -176,8 +176,8 @@ def delete_cupboard_item(cupboard_item_id):
 
 @app.route("/whatsoff", methods=['GET'])
 def whatsoff():
+    
     return render_template('whatsoff.html')
-
 
 
 
