@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content-section">
+  <form method="POST" action="">
+          {{ form.csrf_token }}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4"> Edit fridge item </legend>
+      <div class="form-group">
+              {{ form.item_name.label(class="form-control-label") }}
+              {{ form.item_name(class="form-control form-control-lg") }}
+      </div>
+      <div class="form-group">
+              {{ form.quantity.label(class="form-control-label") }}
+              {{ form.quantity(class="form-control form-control-lg") }}
+      </div>
+      <div class="form-group">
+              {{ form.use_by.label(class="form-control-label") }}
+              {{ form.use_by(class="form-control form-control-lg") }}
+      </div>
+      <div class="form-group">
+              {{ form.image_file.label(class="form-control-label") }}
+              {{ form.image_file(class="form-control form-control-lg") }}
+      </div>
+
+
+
+    </fieldset>
+              <input type="submit">
+  </form>
+
+
+{% endblock content %}
+
