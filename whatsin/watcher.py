@@ -11,27 +11,35 @@ class Watcher:
     def run(self):
         self.every()
     
-    def checkSellby(self, payload):
-        print( "Checking sell-bys...")
+    def checkOffies(self, payload):
+        print( "Checking for off items...")
         offItems = []
         todaysDate = datetime.datetime.now()
-        for Fridge_item in payload:
-            formatted_item_date = Fridge_item.use_by.strftime("%d-%m-%Y")
+        for item in payload:
+            formatted_item_date = item.use_by.strftime("%d-%m-%Y")
             formatted_today_date = todaysDate.strftime("%d-%m-%Y")
-
             if formatted_item_date < formatted_today_date:
-                print(Fridge_item.item_name + " is off, it went off on " + str(Fridge_item.use_by))
-                offItems.append(Fridge_item)
-            elif formatted_item_date == formatted_today_date:
-                print(Fridge_item.item_name + " is going off today...")
+                offItems.append(item)
+        print("OFF ITEM(s) == " + str(offItems))
         return offItems
+
+    def checkIffies(self, payload):
+        iffyItems = []
+        todaysDate = datetime.datetime.now()
+        for item in payload:
+            formatted_item_date = item.use_by.strftime("%d-%m-%Y")
+            formatted_today_date = todaysDate.strftime("%d-%m-%Y")
+            if formatted_item_date == formatted_today_date:
+                iffyItems.append(item)
+        print("IFFY ITEM(s) == " + str(iffyItems))
+        return iffyItems
 
 
     def every(self):
         payload = Fridge_item.query.all()
-        self.checkSellby(payload)
-        Timer(10, self.every).start()
-
+        iffyItems = self.checkIffies(payload)
+        offItems = self.checkOffies(payload)
+        Timer(86400, self.every).start()
         
     def action(self):
         print("tick", time.time())

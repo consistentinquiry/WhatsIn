@@ -1,13 +1,16 @@
 from whatsin.models import User, Fridge_item, Cupboard_item
 from flask import render_template, flash, redirect, url_for, request, abort
 #from flask.ext.login import login_required, login_user
-from whatsin.forms import RegistrationForm, LoginForm, AddToFridgeForm, AddToCupboardForm, FridgeItemForm, CupboardItemForm
+from whatsin.forms import RegistrationForm, LoginForm, AddToFridgeForm, AddToCupboardForm, FridgeItemForm, CupboardItemForm, ViewAccount
 from whatsin import app, db, bcrypt, watcher, photos #imports from run.py
 import os
 import datetime
 from datetime import date
 from flask_login import login_user, current_user, logout_user, login_required
+from whatsin.watcher import Watcher
 
+watcher0 = Watcher()
+watcher0.run()
 #fridge = [
 #        {
 #            'id': '0',
@@ -83,7 +86,9 @@ def logout():
 @app.route("/account")
 @login_required
 def account():
-    return render_template('account.html')
+    user = current_user
+    form = ViewAccount(obj=user)
+    return render_template('account.html', form=form)
 
 @app.route("/add_to_fridge", methods=['GET','POST'])
 @login_required
@@ -177,9 +182,10 @@ def delete_cupboard_item(cupboard_item_id):
 
 @app.route("/whatsoff", methods=['GET'])
 def whatsoff():
-    iffy_items = Fridge_item.query.all()
-    print("Iffy items are: " + str(iffy_items))
-    return render_template('whatsoff.html', iffy=iffy_items)
+    payload = Fridge_item.query.all()
+    iffy_items = watcher0.checkIffies(payload)
+    off_items = watcher0.checkOffies(payload)
+    return render_template('whatsoff.html', iffy=iffy_items, offy=off_items)
 
 
 @app.route("/reciptscan", methods=['GET', 'POST'])

@@ -68,5 +68,10 @@ class CupboardItemForm(FlaskForm):
 
     submit = SubmitField('Sign up')
 
+class ViewAccount(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    
+    submit = SubmitField('Update')
 
 

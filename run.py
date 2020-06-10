@@ -2,7 +2,6 @@
 from whatsin import app #import form the whatsin/init.py
 from whatsin.models import User, Fridge_item, Cupboard_item
 import os
-from whatsin.watcher import Watcher
 
 def run():
     """ Sets up paramters of web server & executes"""
@@ -12,8 +11,7 @@ def run():
     
 
     app.run(debug=debug, host=host, port=port)
-    watcher01 = Watcher()
-    watcher01.run()
+
 
 
 

@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+  <h1> You should eat this today... <h1/>
   {% for item in iffy %}
-  <li class="list-group-item list-group-item-warning">{{ item.item_name }}</li>
-
+    <li class="list-group-item list-group-item-warning">{{ item.item_name }}</li>
+  {% endfor %}
+  <h1> You chuck this... </h1>
+  {% for item in offy %}
+    <li class="list-group-item list-group-item-danger">{{ item.item_name }} </li>
   {% endfor %}
 {% endblock %}
 

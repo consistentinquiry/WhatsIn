@@ -20,5 +20,8 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-from whatsin import routes
+
+from whatsin import routes   #wtf is going on here
+from whatsin import watcher  #would this be the correct way of creating a watcher object,
+                            #it needs to be accessed throughout the application 
 
