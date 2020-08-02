@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1> You should eat this today... <h1/>
+  {% if iffy %}
+    <h1> You should eat this today... <h1/>
   {% for item in iffy %}
     <li class="list-group-item list-group-item-warning">{{ item.item_name }}</li>
+  {% else %}
+    <h1> Nothing is iffy </h1>
   {% endfor %}
-  <h1> You chuck this... </h1>
+  {% endif %}
+  {% if offy %}
+  <h1> Chuck this... </h1>
   {% for item in offy %}
     <li class="list-group-item list-group-item-danger">{{ item.item_name }} </li>
+  {% else %}
+    <h1> Nothing is off </h1>
   {% endfor %}
+  {% endif %}
 {% endblock %}
 

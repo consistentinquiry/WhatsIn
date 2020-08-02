@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+	<li class="nav-item">
+		<a class="nav-link active" id="fridge-tab" data-toggle="tab" href="#fridge" role="tab" aria-controls="fridge" aria-selected="true">Fridge</a>
+	</li>
+	<li class="nav-item">
+		<a class="nav-link" id="cupboard-tab" data-toggle="tab" href="#cupboard" role="tab" aria-controls="cupboard" aria-selected="false">Cupboard</a>
+	</li>
+</ul>
+
+<div class="tab-content" id="myTabConent">
+	<div class="tab-pane fade show active" id="fridge" role="tabpanel" aria-labelledby="fridge-tab" >
    <h1> The Fridge </h1>
       <table class="table" cellspacing="0">
         <thead>
@@ -44,7 +56,11 @@
               {% endif %}
             </tr>
             {% endfor %}
+	    <!--	</div> -->
       </table>
+</div>
+
+<div class="tab-pane fade show" id="cupboard" role="tabpanel" aria-labelledby="cupboard-tab" >
        <h1> The Cupboard </h1>
       <table class="table" cellspacing="0">
         <thead>
@@ -66,7 +82,7 @@
         {% for item in cupboard %}
         <tr>
           <td> {{ item.id }} </td>
-	  <td><img src="{{ url_for('static', filename=item.image_file )}}"> </img></td>
+	  <td><img src="{{ url_for('static', filename=item.image_file )}}" width="80" height="80"> </img></td>
           <td> {{ item.item_name }} </td>
           <td> {{ item.cupboard_item_owner.username }} </td>
           <td> {{ item.quantity}} </td>
@@ -88,5 +104,7 @@
         {% endfor %}
       </tbody>
     </table>
+   </div>  
+ </div>
 
 {% endblock %}

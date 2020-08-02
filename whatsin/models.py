@@ -43,10 +43,17 @@ class Cupboard_item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     item_name = db.Column(db.String(20), unique=False, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    image_file = db.Column(db.String(50), nullable=False, default='default.jpg')
     owner = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  #lowercase as this references table name not model name
 
     def __repr__(self):
         """Return a string representation of the object """
         return f"Cupboard item('{self.item_name}', '{self.quantity}', '{self.image_file}')"
+
+class Catalogue_item(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    item_name = db.Column(db.String(20), unique=False, nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    use_by = db.Column(db.DateTime,  nullable=True)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
 

@@ -2,12 +2,14 @@ from whatsin.models import User, Fridge_item, Cupboard_item
 from flask import render_template, flash, redirect, url_for, request, abort
 #from flask.ext.login import login_required, login_user
 from whatsin.forms import RegistrationForm, LoginForm, AddToFridgeForm, AddToCupboardForm, FridgeItemForm, CupboardItemForm, ViewAccount
-from whatsin import app, db, bcrypt, watcher, photos #imports from run.py
+from whatsin import app, db, bcrypt, watcher, photos, ALLOWED_EXTENSIONS #imports from run.py
 import os
 import datetime
 from datetime import date
 from flask_login import login_user, current_user, logout_user, login_required
 from whatsin.watcher import Watcher
+from werkzeug.utils import secure_filename
+
 
 watcher0 = Watcher()
 watcher0.run()
@@ -187,14 +189,51 @@ def whatsoff():
     off_items = watcher0.checkOffies(payload)
     return render_template('whatsoff.html', iffy=iffy_items, offy=off_items)
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route("/reciptscan", methods=['GET', 'POST'])
 @login_required
+@app.route('/reciptscan', methods=['GET', 'POST'])
 def reciptscan():
-    if request.method == 'POST' and 'photo' in request.files:
-        filename = photos.save(request.files['photo'])
-        return filename
+    if request.method == 'POST':
+        print("Posting...")
+        # check if the post request has the file part
+        if 'pic-file' not in request.files:
+            print("No file in part")
+            return redirect(url_for('reciptscan'))
+        recipt = request.files['pic-file']
+        print("Recipt img: " + str(recipt.filename))
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if recipt.filename == '':
+            print('No selected file')
+            return redirect(url_for('reciptscan'))
+        if recipt and allowed_file(recipt.filename):
+            filename = secure_filename(recipt.filename)
+            recipt.save(os.path.join(app.config['UPLOADED_PHOTOS_DEST'], filename))
+            recipt.close()
+            print("file is allowed: " + filename)
+            return redirect(url_for('reciptscan',
+                                    upload=filename))
     return render_template('reciptscan.html')
+
+@app.context_processor
+def utility_functions():
+    def print_in_console(message):
+        print(message)
+
+    return dict(mdebug=print_in_console)
+
+#@app.route("/reciptscan", methods=['GET', 'POST'])
+#@login_required
+#def reciptscan():
+#    print(ALLOWED_EXTENSIONS)
+#    if request.method == 'POST' and 'photo' in request.files:
+#        filename = photos.save(request.files['photo'])
+#        print("POST, contents of filename var: " + filename) 
+#        return filename
+#    return render_template('reciptscan.html')
 
 
 

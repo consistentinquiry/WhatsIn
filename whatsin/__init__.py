@@ -7,7 +7,8 @@ from flask_uploads import UploadSet, configure_uploads, IMAGES
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '70dcb28ffcb20a5c76cbd7dd60b02050'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:johnsmells7@whatsin-db.cubhsslyixfb.eu-west-2.rds.amazonaws.com/whatsin_db'
-app.config['UPLOADED_PHOTOS_DEST'] = 'static/'
+app.config['UPLOADED_PHOTOS_DEST'] = 'whatsin/static/recipt_uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'gif', 'jpeg' }
 
 photos = UploadSet('photos', IMAGES)
 

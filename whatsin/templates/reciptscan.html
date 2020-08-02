@@ -1,11 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-  <span class="border border-primary"
-    <form method=POST enctype=multipart/form-data action="{{ url_for('reciptscan') }}">
-      <input type=file name=photo>
+  {% if upload %}
+  <h1>upload iS A THJING </h1>
+  {% endif %}
+  <div class="container">
+    <form method='post' enctype=multipart/form-data action="{{ url_for('reciptscan') }}">
+      <input class='picture-file-input' type='file' name='pic-file'>
       <input type="submit">
     </form>
-  </span>
+  </div>
+  <div class="container"
   <span class="border border-primary">
+	  {% if upload %}
+	    <img src="/static/recipt_uploads/{{ upload }}"  align="middle" wdith="150" height="500"/>
+	    {{ mdebug(upload)}}
+	  {% else %}
+            <img src="/static/defaults/default_upload.png"  align="middle" wdith="150" height="500"/>
+	  {% endif %}
+
   </span>
+  </div>
 {% endblock %}
